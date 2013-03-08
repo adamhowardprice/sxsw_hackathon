@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A239A15716EA1AF000605B0D /* FZCacheHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A239A15616EA1AF000605B0D /* FZCacheHandler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		A239A15B16EA1BDA00605B0D /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A239A15A16EA1BDA00605B0D /* Event.m */; };
 		A239A15C16EA1D9700605B0D /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A239A15A16EA1BDA00605B0D /* Event.m */; };
 		A2A3932016EA169400B5921F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2A3931F16EA169400B5921F /* UIKit.framework */; };
@@ -28,17 +27,6 @@
 		A2A3934E16EA169500B5921F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A2A3934C16EA169500B5921F /* InfoPlist.strings */; };
 		A2A3935116EA169500B5921F /* sxsw_sandboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A3935016EA169500B5921F /* sxsw_sandboxTests.m */; };
 		A2A399FF16EA172600B5921F /* events in Resources */ = {isa = PBXBuildFile; fileRef = A2A399FE16EA172600B5921F /* events */; };
-		A2A39A1016EA19D300B5921F /* FZObjectFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0416EA19D300B5921F /* FZObjectFactory.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2A39A1116EA19D300B5921F /* FZObjectFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0416EA19D300B5921F /* FZObjectFactory.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2A39A1216EA19D300B5921F /* FZObjectFactoryCodingKey.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0716EA19D300B5921F /* FZObjectFactoryCodingKey.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2A39A1316EA19D300B5921F /* FZObjectFactoryCodingKey.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0716EA19D300B5921F /* FZObjectFactoryCodingKey.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2A39A1416EA19D300B5921F /* FZObjectFactoryDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0A16EA19D300B5921F /* FZObjectFactoryDictionary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2A39A1516EA19D300B5921F /* FZObjectFactoryDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0A16EA19D300B5921F /* FZObjectFactoryDictionary.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2A39A1616EA19D300B5921F /* FZObjectFactoryJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0D16EA19D300B5921F /* FZObjectFactoryJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2A39A1716EA19D300B5921F /* FZObjectFactoryJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0D16EA19D300B5921F /* FZObjectFactoryJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2A39A1816EA19D300B5921F /* FZObjectProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0F16EA19D300B5921F /* FZObjectProperty.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2A39A1916EA19D300B5921F /* FZObjectProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A39A0F16EA19D300B5921F /* FZObjectProperty.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		A2F68E0316EA24CC00B18B8C /* FZCacheHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = A239A15616EA1AF000605B0D /* FZCacheHandler.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +40,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A239A15516EA1AF000605B0D /* FZCacheHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FZCacheHandler.h; sourceTree = "<group>"; };
-		A239A15616EA1AF000605B0D /* FZCacheHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FZCacheHandler.m; sourceTree = "<group>"; };
 		A239A15916EA1BDA00605B0D /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = "<group>"; };
 		A239A15A16EA1BDA00605B0D /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = "<group>"; };
 		A239A16216EA1F7B00605B0D /* event_MS20104.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = event_MS20104.json; sourceTree = "<group>"; };
@@ -927,16 +913,6 @@
 		A2A3934F16EA169500B5921F /* sxsw_sandboxTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sxsw_sandboxTests.h; sourceTree = "<group>"; };
 		A2A3935016EA169500B5921F /* sxsw_sandboxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sxsw_sandboxTests.m; sourceTree = "<group>"; };
 		A2A399FE16EA172600B5921F /* events */ = {isa = PBXFileReference; lastKnownFileType = folder; path = events; sourceTree = "<group>"; };
-		A2A39A0316EA19D300B5921F /* FZObjectFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FZObjectFactory.h; sourceTree = "<group>"; };
-		A2A39A0416EA19D300B5921F /* FZObjectFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FZObjectFactory.m; sourceTree = "<group>"; };
-		A2A39A0616EA19D300B5921F /* FZObjectFactoryCodingKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FZObjectFactoryCodingKey.h; sourceTree = "<group>"; };
-		A2A39A0716EA19D300B5921F /* FZObjectFactoryCodingKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FZObjectFactoryCodingKey.m; sourceTree = "<group>"; };
-		A2A39A0916EA19D300B5921F /* FZObjectFactoryDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FZObjectFactoryDictionary.h; sourceTree = "<group>"; };
-		A2A39A0A16EA19D300B5921F /* FZObjectFactoryDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FZObjectFactoryDictionary.m; sourceTree = "<group>"; };
-		A2A39A0C16EA19D300B5921F /* FZObjectFactoryJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FZObjectFactoryJSON.h; sourceTree = "<group>"; };
-		A2A39A0D16EA19D300B5921F /* FZObjectFactoryJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FZObjectFactoryJSON.m; sourceTree = "<group>"; };
-		A2A39A0E16EA19D300B5921F /* FZObjectProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FZObjectProperty.h; sourceTree = "<group>"; };
-		A2A39A0F16EA19D300B5921F /* FZObjectProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FZObjectProperty.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -965,15 +941,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A239A15416EA1AF000605B0D /* FZCacheHandler */ = {
-			isa = PBXGroup;
-			children = (
-				A239A15516EA1AF000605B0D /* FZCacheHandler.h */,
-				A239A15616EA1AF000605B0D /* FZCacheHandler.m */,
-			);
-			path = FZCacheHandler;
-			sourceTree = "<group>";
-		};
 		A239A15816EA1BC500605B0D /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1879,7 +1846,6 @@
 				A2A3933116EA169400B5921F /* AppDelegate.m */,
 				A2A3933916EA169400B5921F /* sxsw_sandbox.xcdatamodeld */,
 				A239A15816EA1BC500605B0D /* model */,
-				A2A39A0116EA19B300B5921F /* vendor */,
 				A2A3935A16EA170F00B5921F /* resources */,
 				A2A3932816EA169400B5921F /* Supporting Files */,
 			);
@@ -1925,56 +1891,6 @@
 				A2A399FE16EA172600B5921F /* events */,
 			);
 			path = resources;
-			sourceTree = "<group>";
-		};
-		A2A39A0116EA19B300B5921F /* vendor */ = {
-			isa = PBXGroup;
-			children = (
-				A239A15416EA1AF000605B0D /* FZCacheHandler */,
-				A2A39A0216EA19D300B5921F /* FZObjectFactories */,
-			);
-			path = vendor;
-			sourceTree = "<group>";
-		};
-		A2A39A0216EA19D300B5921F /* FZObjectFactories */ = {
-			isa = PBXGroup;
-			children = (
-				A2A39A0316EA19D300B5921F /* FZObjectFactory.h */,
-				A2A39A0416EA19D300B5921F /* FZObjectFactory.m */,
-				A2A39A0516EA19D300B5921F /* FZObjectFactoryCodingKey */,
-				A2A39A0816EA19D300B5921F /* FZObjectFactoryDictionary */,
-				A2A39A0B16EA19D300B5921F /* FZObjectFactoryJSON */,
-				A2A39A0E16EA19D300B5921F /* FZObjectProperty.h */,
-				A2A39A0F16EA19D300B5921F /* FZObjectProperty.m */,
-			);
-			path = FZObjectFactories;
-			sourceTree = "<group>";
-		};
-		A2A39A0516EA19D300B5921F /* FZObjectFactoryCodingKey */ = {
-			isa = PBXGroup;
-			children = (
-				A2A39A0616EA19D300B5921F /* FZObjectFactoryCodingKey.h */,
-				A2A39A0716EA19D300B5921F /* FZObjectFactoryCodingKey.m */,
-			);
-			path = FZObjectFactoryCodingKey;
-			sourceTree = "<group>";
-		};
-		A2A39A0816EA19D300B5921F /* FZObjectFactoryDictionary */ = {
-			isa = PBXGroup;
-			children = (
-				A2A39A0916EA19D300B5921F /* FZObjectFactoryDictionary.h */,
-				A2A39A0A16EA19D300B5921F /* FZObjectFactoryDictionary.m */,
-			);
-			path = FZObjectFactoryDictionary;
-			sourceTree = "<group>";
-		};
-		A2A39A0B16EA19D300B5921F /* FZObjectFactoryJSON */ = {
-			isa = PBXGroup;
-			children = (
-				A2A39A0C16EA19D300B5921F /* FZObjectFactoryJSON.h */,
-				A2A39A0D16EA19D300B5921F /* FZObjectFactoryJSON.m */,
-			);
-			path = FZObjectFactoryJSON;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2090,12 +2006,6 @@
 				A2A3932E16EA169400B5921F /* main.m in Sources */,
 				A2A3933216EA169400B5921F /* AppDelegate.m in Sources */,
 				A2A3933B16EA169500B5921F /* sxsw_sandbox.xcdatamodeld in Sources */,
-				A2A39A1016EA19D300B5921F /* FZObjectFactory.m in Sources */,
-				A2A39A1216EA19D300B5921F /* FZObjectFactoryCodingKey.m in Sources */,
-				A2A39A1416EA19D300B5921F /* FZObjectFactoryDictionary.m in Sources */,
-				A2A39A1616EA19D300B5921F /* FZObjectFactoryJSON.m in Sources */,
-				A2A39A1816EA19D300B5921F /* FZObjectProperty.m in Sources */,
-				A239A15716EA1AF000605B0D /* FZCacheHandler.m in Sources */,
 				A239A15B16EA1BDA00605B0D /* Event.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2104,14 +2014,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2F68E0316EA24CC00B18B8C /* FZCacheHandler.m in Sources */,
 				A239A15C16EA1D9700605B0D /* Event.m in Sources */,
 				A2A3935116EA169500B5921F /* sxsw_sandboxTests.m in Sources */,
-				A2A39A1116EA19D300B5921F /* FZObjectFactory.m in Sources */,
-				A2A39A1316EA19D300B5921F /* FZObjectFactoryCodingKey.m in Sources */,
-				A2A39A1516EA19D300B5921F /* FZObjectFactoryDictionary.m in Sources */,
-				A2A39A1716EA19D300B5921F /* FZObjectFactoryJSON.m in Sources */,
-				A2A39A1916EA19D300B5921F /* FZObjectProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

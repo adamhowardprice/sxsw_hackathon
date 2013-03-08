@@ -28,4 +28,8 @@
 @property (nonatomic, strong) NSString *ages;
 @property (nonatomic, strong) NSArray *hashTagsArray;
 
++ (NSDictionary *)mappingDictionary;
+
+- (id)initWithJSONDictionary:(NSDictionary *)dictionary;
+
 @end
