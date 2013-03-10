@@ -46,6 +46,8 @@
 		A2AB51F716ED1D540095588D /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB51F516ED1D530095588D /* Event.m */; };
 		A2AB520316ED2E560095588D /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB520216ED2E560095588D /* Artist.m */; };
 		A2AB520416ED2E560095588D /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB520216ED2E560095588D /* Artist.m */; };
+		A2AB520816ED4BE20095588D /* NSString+SXSW.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB520716ED4BE20095588D /* NSString+SXSW.m */; };
+		A2AB520916ED4BE20095588D /* NSString+SXSW.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB520716ED4BE20095588D /* NSString+SXSW.m */; };
 		BCB29AF616ED05B7006C7384 /* libCocoaLibSpotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB29AF116ED05A9006C7384 /* libCocoaLibSpotify.a */; };
 		BCB29AF816ED05DB006C7384 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB29AF716ED05DB006C7384 /* AudioToolbox.framework */; };
 		BCB29AFA16ED05EB006C7384 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB29AF916ED05EB006C7384 /* CFNetwork.framework */; };
@@ -129,6 +131,8 @@
 		A2AB51F516ED1D530095588D /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = sxsw_sandbox/Event.m; sourceTree = SOURCE_ROOT; };
 		A2AB520116ED2E560095588D /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Artist.h; path = sxsw_sandbox/Artist.h; sourceTree = SOURCE_ROOT; };
 		A2AB520216ED2E560095588D /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Artist.m; path = sxsw_sandbox/Artist.m; sourceTree = SOURCE_ROOT; };
+		A2AB520616ED4BE20095588D /* NSString+SXSW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SXSW.h"; sourceTree = "<group>"; };
+		A2AB520716ED4BE20095588D /* NSString+SXSW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SXSW.m"; sourceTree = "<group>"; };
 		BCB29AEB16ED05A9006C7384 /* CocoaLibSpotify iOS Library.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CocoaLibSpotify iOS Library.xcodeproj"; path = "cocoalibspotify/iOS Library/CocoaLibSpotify iOS Library.xcodeproj"; sourceTree = "<group>"; };
 		BCB29AF716ED05DB006C7384 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		BCB29AF916ED05EB006C7384 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -251,6 +255,7 @@
 		A2A3932716EA169400B5921F /* sxsw_sandbox */ = {
 			isa = PBXGroup;
 			children = (
+				A2AB520516ED4BD00095588D /* categories */,
 				BCB29AFF16ED0685006C7384 /* appkey.h */,
 				A2A3933016EA169400B5921F /* AppDelegate.h */,
 				A2A3933116EA169400B5921F /* AppDelegate.m */,
@@ -315,6 +320,15 @@
 				A2AB51E516ED1CDF0095588D /* Artist+SXSW.m */,
 				A2AB51E816ED1CE90095588D /* Venue+SXSW.h */,
 				A2AB51E916ED1CE90095588D /* Venue+SXSW.m */,
+			);
+			name = categories;
+			sourceTree = "<group>";
+		};
+		A2AB520516ED4BD00095588D /* categories */ = {
+			isa = PBXGroup;
+			children = (
+				A2AB520616ED4BE20095588D /* NSString+SXSW.h */,
+				A2AB520716ED4BE20095588D /* NSString+SXSW.m */,
 			);
 			name = categories;
 			sourceTree = "<group>";
@@ -476,6 +490,7 @@
 				A2AB51EE16ED1D530095588D /* Venue.m in Sources */,
 				A2AB51F616ED1D540095588D /* Event.m in Sources */,
 				A2AB520316ED2E560095588D /* Artist.m in Sources */,
+				A2AB520816ED4BE20095588D /* NSString+SXSW.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +508,7 @@
 				A2AB51EF16ED1D530095588D /* Venue.m in Sources */,
 				A2AB51F716ED1D540095588D /* Event.m in Sources */,
 				A2AB520416ED2E560095588D /* Artist.m in Sources */,
+				A2AB520916ED4BE20095588D /* NSString+SXSW.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

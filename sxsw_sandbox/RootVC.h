@@ -14,6 +14,10 @@
     MKMapView *_mapView;
         
     NSMutableArray *_results;
+    
+    UIButton *_leftButton;
+    UIButton *_rightButton;
+    UISlider *_timeSlider;
 }
 @property (nonatomic, strong) MKMapView *mapView;
 
