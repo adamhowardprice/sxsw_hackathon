@@ -5,11 +5,12 @@
         <attribute name="artist" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="day" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="filePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="venue" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Event" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="Event" positionX="160" positionY="192" width="128" height="165"/>
     </elements>
 </model>
