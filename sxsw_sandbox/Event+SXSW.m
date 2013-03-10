@@ -1,12 +1,12 @@
 //
-//  Event.m
+//  Event+SXSW.m
 //  sxsw_sandbox
 //
-//  Created by Adam Price on 3/8/13.
+//  Created by Adam Price on 3/10/13.
 //  Copyright (c) 2013 Adam Price. All rights reserved.
 //
 
-#import "Event.h"
+#import "Event+SXSW.h"
 #include <time.h>
 #include <xlocale.h>
 
@@ -67,9 +67,10 @@ NSDate * SPDateFromISO8601String(NSString *ISO8601String) {
     return [NSDate dateWithTimeIntervalSince1970:mktime(&tm)];
 }
 
+
 static NSDictionary *EventMapppingDictionary = nil;
 
-@implementation Event
+@implementation Event (SXSW)
 
 + (NSDictionary *)mappingDictionary
 {
@@ -81,28 +82,28 @@ static NSDictionary *EventMapppingDictionary = nil;
                                     @"day": @"day",
                                     @"ages": @"ages",
                                     @"start": @"startDate",
-                                    @"end": @"endDate",
-                                    @"hashTags": @"hashTagsArray"
-                                   };
+                                    @"end": @"endDate"
+                                    };
     }
     return EventMapppingDictionary;
 }
 
-- (id)initWithJSONDictionary:(NSDictionary *)dictionary
+- (id)initWithJSONDictionary:(NSDictionary *)dictionary inContext:(NSManagedObjectContext *)context
 {
-    if (!(self = [super init]))
+    if (!(self = [super initWithEntity:[NSEntityDescription entityForName:NSStringFromClass([self class]) inManagedObjectContext:context] insertIntoManagedObjectContext:context]))
         return nil;
     
     [[[self class] mappingDictionary] enumerateKeysAndObjectsUsingBlock:
      ^(id serverKey, id propertyName, BOOL *stop)
-    {
-        id tmpValue = dictionary[serverKey];
-        if (tmpValue && tmpValue != [NSNull null]) {
-            if ([propertyName hasSuffix:@"Date"] || [propertyName hasSuffix:@"Date"])
-                tmpValue = SPDateFromISO8601String(tmpValue);
-            [self setValue:tmpValue forKey:propertyName];
-        }
-    }];
+     {
+         id tmpValue = dictionary[serverKey];
+         if (tmpValue && tmpValue != [NSNull null]) {
+             if ([propertyName hasSuffix:@"Date"] || [propertyName hasSuffix:@"Date"])
+                 tmpValue = SPDateFromISO8601String(tmpValue);
+             [self setValue:tmpValue forKey:propertyName];
+         }
+     }];
+    
     
     return self;
 }

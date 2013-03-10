@@ -8,12 +8,16 @@
 
 #import "sxsw_sandboxTests.h"
 #import "Event.h"
+#import "Event+SXSW.h"
+#import "SPCoreDataWrapper.h"
 
 @implementation sxsw_sandboxTests
 
 - (void)setUp
 {
     [super setUp];
+    
+    [SPCoreDataWrapper readContext]; // Sets up initial core data stack.
     
     // Set-up code here.
 }
@@ -52,13 +56,32 @@
                 else if ([jsonObject isKindOfClass:[NSDictionary class]])
                     eventDict = jsonObject;
                 
-                Event *newEvent = [[Event alloc] initWithJSONDictionary:eventDict];
+                Event *newEvent = [[Event alloc] initWithJSONDictionary:eventDict inContext:[SPCoreDataWrapper readContext]];
+                
                 STAssertNotNil(newEvent, @"Event should not be nil");
                 [events addObject:newEvent];
             }
         }
     }
     STAssertTrue([events count] > 0, @"There are 0 Event objects in the resulting array");
+}
+
+- (void)testDownloadMP3FromSXSW
+{
+    NSURL *url = [NSURL URLWithString:@"http://audio.sxsw.com/2013/mp3_by_artist_id/55492.mp3"];
+    BOOL downloaded = [self downloadMP3sFromSXSWURL:url];
+    STAssertTrue(downloaded, @"Did not download from URL: %@", [url absoluteString]);
+}
+
+#pragma mark Private Methods
+
+- (BOOL)downloadMP3sFromSXSWURL:(NSURL *)inURL
+{
+    NSError *error = nil;
+    NSData *songData = [NSData dataWithContentsOfURL:inURL options:0 error:&error];
+    if (error)
+        NSLog(@"Error: %@", [error localizedDescription]);
+    return songData != nil && !error;
 }
 
 @end
