@@ -50,16 +50,11 @@
             NSDictionary *eventDict = nil;
             if (jsonObject) {
                 if ([jsonObject isKindOfClass:[NSArray class]]) {
-                    STAssertTrue([jsonObject isKindOfClass:[NSArray class]] && [(NSArray *)jsonObject count] > 0, @"JSON Object should be an NSArray or it should have count > 0: %@", jsonObject);
-                    eventDict = [(NSArray *)jsonObject objectAtIndex:0];
+                    Event *newEvent = [[Event alloc] initWithJSONArray:jsonObject inContext:[SPCoreDataWrapper readContext]];
+                    
+                    STAssertNotNil(newEvent, @"Event should not be nil");
+                    [events addObject:newEvent];
                 }
-                else if ([jsonObject isKindOfClass:[NSDictionary class]])
-                    eventDict = jsonObject;
-                
-                Event *newEvent = [[Event alloc] initWithJSONDictionary:eventDict inContext:[SPCoreDataWrapper readContext]];
-                
-                STAssertNotNil(newEvent, @"Event should not be nil");
-                [events addObject:newEvent];
             }
         }
     }
