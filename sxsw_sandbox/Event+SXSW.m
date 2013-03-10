@@ -110,7 +110,17 @@ static NSDictionary *EventMapppingDictionary = nil;
              if (tmpValue && tmpValue != [NSNull null]) {
                  if ([propertyName hasSuffix:@"Date"] || [propertyName hasSuffix:@"Date"])
                  {
-                     tmpValue = SPDateFromISO8601String(tmpValue);
+                     // tmpValue = SPDateFromISO8601String(tmpValue);
+                     static NSDateFormatter* formatter = nil;
+                     if (!formatter) {
+                         formatter = [[NSDateFormatter alloc] init];
+                         formatter.locale = [NSLocale autoupdatingCurrentLocale];
+                         formatter.timeZone = [NSTimeZone localTimeZone];
+                         
+                         /*2013-03-14T06:50:00Z*/
+                         formatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+                     }
+                     tmpValue = [formatter dateFromString:tmpValue];
                  }
                  
                  if ([propertyName isEqualToString:@"artist"] || [propertyName isEqualToString:@"venue"]) {

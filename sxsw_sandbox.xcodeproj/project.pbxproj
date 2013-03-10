@@ -56,6 +56,7 @@
 		BCB29B0416ED06FF006C7384 /* ArtistBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB29B0316ED06FF006C7384 /* ArtistBrowseViewController.m */; };
 		BCB29B0616ED0836006C7384 /* SPLoginResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BCB29B0516ED0836006C7384 /* SPLoginResources.bundle */; };
 		BCB29B0E16ED13DD006C7384 /* sxsw_sandbox.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0516ED099C00400D94 /* sxsw_sandbox.xcdatamodeld */; };
+		BCB29BFE16ED4F0E006C7384 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB29BFD16ED4F0E006C7384 /* MBProgressHUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,13 +80,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 50D4F52B156BCDE800E237DD;
 			remoteInfo = CocoaLSTests;
-		};
-		BCB29AF416ED05B3006C7384 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BCB29AEB16ED05A9006C7384 /* CocoaLibSpotify iOS Library.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 50AF49DB1439CBFE00E4A5EF;
-			remoteInfo = CocoaLibSpotify;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -142,6 +136,8 @@
 		BCB29B0216ED06FF006C7384 /* ArtistBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArtistBrowseViewController.h; sourceTree = "<group>"; };
 		BCB29B0316ED06FF006C7384 /* ArtistBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArtistBrowseViewController.m; sourceTree = "<group>"; };
 		BCB29B0516ED0836006C7384 /* SPLoginResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SPLoginResources.bundle; path = "cocoalibspotify/iOS Library/SPLoginResources.bundle"; sourceTree = "<group>"; };
+		BCB29BFC16ED4F0E006C7384 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
+		BCB29BFD16ED4F0E006C7384 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -237,6 +233,7 @@
 		A2A3931E16EA169400B5921F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BCB29BFF16ED4F14006C7384 /* MBProgressHUD */,
 				A24EDC0D16ED0F8300400D94 /* CoreLocation.framework */,
 				BCB29B0016ED06E4006C7384 /* AVFoundation.framework */,
 				BCB29AFD16ED063A006C7384 /* libstdc++.dylib */,
@@ -342,6 +339,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		BCB29BFF16ED4F14006C7384 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				BCB29BFC16ED4F0E006C7384 /* MBProgressHUD.h */,
+				BCB29BFD16ED4F0E006C7384 /* MBProgressHUD.m */,
+			);
+			name = MBProgressHUD;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -356,7 +362,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				BCB29AF516ED05B3006C7384 /* PBXTargetDependency */,
 			);
 			name = sxsw_sandbox;
 			productName = sxsw_sandbox;
@@ -491,6 +496,7 @@
 				A2AB51F616ED1D540095588D /* Event.m in Sources */,
 				A2AB520316ED2E560095588D /* Artist.m in Sources */,
 				A2AB520816ED4BE20095588D /* NSString+SXSW.m in Sources */,
+				BCB29BFE16ED4F0E006C7384 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,11 +525,6 @@
 			isa = PBXTargetDependency;
 			target = A2A3931B16EA169400B5921F /* sxsw_sandbox */;
 			targetProxy = A2A3934716EA169500B5921F /* PBXContainerItemProxy */;
-		};
-		BCB29AF516ED05B3006C7384 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CocoaLibSpotify;
-			targetProxy = BCB29AF416ED05B3006C7384 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -610,6 +611,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "sxsw_sandbox/sxsw_sandbox-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../MBProgressHUD,
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "sxsw_sandbox/sxsw_sandbox-Info.plist";
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -626,6 +631,10 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "sxsw_sandbox/sxsw_sandbox-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					../MBProgressHUD,
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = "sxsw_sandbox/sxsw_sandbox-Info.plist";
 				OTHER_LDFLAGS = (
 					"-all_load",

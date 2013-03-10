@@ -13,6 +13,7 @@
 #import "Venue+SXSW.h"
 #import "NSString+SXSW.h"
 #import "AppDelegate.h"
+#import "MBProgressHUD.h"
 #import <CocoaLibSpotify.h>
 #import <CoreLocation/CoreLocation.h>
 
@@ -79,6 +80,7 @@
 - (NSFetchRequest *)fetchRequest
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Event"];
+
     [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"url" ascending:YES]]];
     return fetchRequest;
 }
@@ -322,6 +324,8 @@ fromOldState:(MKAnnotationViewDragState)oldState
 
 - (void)playEvent:(Event*)event
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    
     NSString* artistName = event.artist.name;
     [SPAsyncLoading waitUntilLoaded:[SPSearch liveSearchWithSearchQuery:artistName inSession:[SPSession sharedSession]]
                             timeout:kSPAsyncLoadingDefaultTimeout
@@ -350,6 +354,7 @@ fromOldState:(MKAnnotationViewDragState)oldState
                                   if (error) {
                                       [weakSelf spotifyFailedToPlayEvent:event error:error];
                                   } else {
+                                      [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                                       weakSelf.spCurrentArtist = browse;
                                       [weakSelf setTitle:artist.name];
                                   }
@@ -377,6 +382,8 @@ fromOldState:(MKAnnotationViewDragState)oldState
 
 - (void)spotifyFailedToPlayEvent:(Event*)event error:(NSError*)error
 {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
     // TODO fall back to event MP3
 
     if (error) {

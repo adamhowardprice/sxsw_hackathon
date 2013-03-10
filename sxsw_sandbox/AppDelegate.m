@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "SPCoreDataWrapper.h"
 #import <CocoaLibSpotify.h>
+#import "MBProgressHUD.h"
 #import "appkey.h"
 
 #define kDefaultSpotifyUserCredentials @"SpotifyUser"
@@ -135,6 +136,7 @@
     [[SPSession sharedSession] attemptLoginWithUserName:[[user allKeys] lastObject] existingCredential:[[user allValues] lastObject]];
     
     // TODO: show modal login activity indicator
+    [MBProgressHUD showHUDAddedTo:_rootVC.view animated:NO];
     
     return YES;
 }
@@ -143,6 +145,8 @@
 
 -(void)sessionDidLoginSuccessfully:(SPSession *)aSession {
 	// Called after a successful login.
+    
+    [MBProgressHUD hideAllHUDsForView:_rootVC.view animated:YES];
     
 	[SPAsyncLoading waitUntilLoaded:aSession timeout:kSPAsyncLoadingDefaultTimeout then:^
      (NSArray *loadedItems, NSArray *notLoadedItems) {
@@ -160,13 +164,6 @@
                   [_rootVC.navigationController dismissViewControllerAnimated:YES completion:nil];
                   return;
               }
-              
-              UIAlertView* loggedIn = [[UIAlertView alloc] initWithTitle:@"Logged in!"
-                                                                 message:nil
-                                                                delegate:nil
-                                                       cancelButtonTitle:@"OK"
-                                                       otherButtonTitles:nil];
-              [loggedIn show];
           }];
      }];
 }
