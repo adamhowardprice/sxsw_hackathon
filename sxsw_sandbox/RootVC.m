@@ -105,7 +105,7 @@
     if (_currentDay != day) {
         _currentDay = day;
         
-        NSUInteger dateForDateString = [NSString concertDayForDateString:<#(NSString *)#>]
+        NSUInteger dateForDateString = [NSString concertDayForDateString:@""];
         
         NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Event"];
         [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@""]];

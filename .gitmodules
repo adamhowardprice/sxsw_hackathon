@@ -1,3 +1,6 @@
 [submodule "cocoalibspotify"]
 	path = cocoalibspotify
 	url = http://github.com/spotify/cocoalibspotify.git
+[submodule "MBProgressHUD"]
+	path = MBProgressHUD
+	url = https://github.com/jdg/MBProgressHUD.git
