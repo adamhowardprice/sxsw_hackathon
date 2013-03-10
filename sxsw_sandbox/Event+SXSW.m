@@ -113,4 +113,29 @@ static NSDictionary *EventMapppingDictionary = nil;
     return [[super description] stringByAppendingFormat:@"\nurl: '%@',\nartist: '%@',\nstartDate: '%@',\nendDate: '%@'", self.url, self.artist, self.startDate, self.endDate];
 }
 
+#pragma mark MKAnnotation
+
+- (NSString *)title
+{
+    return self.artist;
+}
+
+- (NSString *)subtitle
+{
+    return self.venue;
+}
+
+- (CLLocationCoordinate2D)coordinate
+{
+    return CLLocationCoordinate2DMake([self.latitude doubleValue], [self.longitude doubleValue]);
+}
+
+- (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate
+{
+    if (CLLocationCoordinate2DIsValid(newCoordinate)) {
+        [self setLatitude:@(newCoordinate.latitude)];
+        [self setLongitude:@(newCoordinate.longitude)];
+    }
+}
+
 @end

@@ -11,12 +11,15 @@
 
 @implementation Event
 
-@dynamic url;
-@dynamic artist;
-@dynamic venue;
-@dynamic day;
-@dynamic startDate;
-@dynamic endDate;
 @dynamic ages;
+@dynamic artist;
+@dynamic day;
+@dynamic endDate;
+@dynamic startDate;
+@dynamic url;
+@dynamic venue;
+@dynamic filePath;
+@dynamic latitude;
+@dynamic longitude;
 
 @end
