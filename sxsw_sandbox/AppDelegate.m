@@ -121,7 +121,8 @@
         [_rootVC.navigationController presentViewController:controller animated:NO completion:nil];
     }
     
-    [SPCoreDataWrapper seedCoreDataWithSXSWFiles];
+    
+    [SPCoreDataWrapper seedCoreDataWithSXSWFilesIfNeeded];
 }
 
 - (BOOL)maybeAutologin

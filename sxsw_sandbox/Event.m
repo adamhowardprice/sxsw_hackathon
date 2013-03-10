@@ -7,19 +7,19 @@
 //
 
 #import "Event.h"
+#import "Artist.h"
+#import "Venue.h"
 
 
 @implementation Event
 
 @dynamic ages;
-@dynamic artist;
 @dynamic day;
 @dynamic endDate;
+@dynamic filePath;
 @dynamic startDate;
 @dynamic url;
+@dynamic artist;
 @dynamic venue;
-@dynamic filePath;
-@dynamic latitude;
-@dynamic longitude;
 
 @end

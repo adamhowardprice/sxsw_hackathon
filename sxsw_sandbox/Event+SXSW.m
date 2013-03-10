@@ -7,6 +7,11 @@
 //
 
 #import "Event+SXSW.h"
+#import "Artist+SXSW.h"
+#import "Venue+SXSW.h"
+#import "SPCoreDataWrapper.h"
+#import "Artist.h"
+#import "Venue.h"
 #include <time.h>
 #include <xlocale.h>
 
@@ -88,21 +93,57 @@ static NSDictionary *EventMapppingDictionary = nil;
     return EventMapppingDictionary;
 }
 
-- (id)initWithJSONDictionary:(NSDictionary *)dictionary inContext:(NSManagedObjectContext *)context
+- (id)initWithJSONArray:(NSArray *)array inContext:(NSManagedObjectContext *)context
 {
     if (!(self = [super initWithEntity:[NSEntityDescription entityForName:NSStringFromClass([self class]) inManagedObjectContext:context] insertIntoManagedObjectContext:context]))
         return nil;
     
-    [[[self class] mappingDictionary] enumerateKeysAndObjectsUsingBlock:
-     ^(id serverKey, id propertyName, BOOL *stop)
-     {
-         id tmpValue = dictionary[serverKey];
-         if (tmpValue && tmpValue != [NSNull null]) {
-             if ([propertyName hasSuffix:@"Date"] || [propertyName hasSuffix:@"Date"])
-                 tmpValue = SPDateFromISO8601String(tmpValue);
-             [self setValue:tmpValue forKey:propertyName];
-         }
-     }];
+    NSDictionary *eventDict = [array count] ? array[0] : nil;
+    NSDictionary *artistDict = [array count] >= 1 ? array[1] : nil;
+    NSDictionary *venueDict = [array count] >= 2 ? array[2] : nil;
+    
+    if (eventDict) {
+        [[[self class] mappingDictionary] enumerateKeysAndObjectsUsingBlock:
+         ^(id serverKey, id propertyName, BOOL *stop)
+         {
+             id tmpValue = eventDict[serverKey];
+             if (tmpValue && tmpValue != [NSNull null]) {
+                 if ([propertyName hasSuffix:@"Date"] || [propertyName hasSuffix:@"Date"])
+                 {
+                     tmpValue = SPDateFromISO8601String(tmpValue);
+                 }
+                 
+                 if ([propertyName isEqualToString:@"artist"] || [propertyName isEqualToString:@"venue"]) {
+                     if ([propertyName isEqualToString:@"artist"])
+                     {
+                         
+                         tmpValue = [SPCoreDataWrapper artistForEvent:self
+                                                                 name:artistDict[@"name"]
+                                                                  url:artistDict[@"url"]
+                                                                genre:artistDict[@"genre"]
+                                                               origin:artistDict[@"origin"]
+                                                             videoURL:artistDict[@"videoURL"]
+                                                               imgURL:artistDict[@"imgURL"]
+                                                              songURL:artistDict[@"songURL"]
+                                                            inContext:context];
+                         
+                     }
+                     else if ([propertyName isEqualToString:@"venue"])
+                     {
+                         tmpValue = [SPCoreDataWrapper venueForEvent:self
+                                                                name:tmpValue
+                                                             address:venueDict[@"address"]
+                                                           inContext:context];
+                     }
+                 } else {
+                     [self setValue:tmpValue forKey:propertyName];
+                 }
+                 
+
+                 
+             }
+         }];
+    }
     
     
     return self;
@@ -117,24 +158,24 @@ static NSDictionary *EventMapppingDictionary = nil;
 
 - (NSString *)title
 {
-    return self.artist;
+    return self.artist.name;
 }
 
 - (NSString *)subtitle
 {
-    return self.venue;
+    return self.venue.address;
 }
 
 - (CLLocationCoordinate2D)coordinate
 {
-    return CLLocationCoordinate2DMake([self.latitude doubleValue], [self.longitude doubleValue]);
+    return CLLocationCoordinate2DMake([self.venue.lat doubleValue], [self.venue.lng doubleValue]);
 }
 
 - (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate
 {
     if (CLLocationCoordinate2DIsValid(newCoordinate)) {
-        [self setLatitude:@(newCoordinate.latitude)];
-        [self setLongitude:@(newCoordinate.longitude)];
+        [self.venue setLat:@(newCoordinate.latitude)];
+        [self.venue setLng:@(newCoordinate.longitude)];
     }
 }
 

@@ -9,6 +9,10 @@
 #import "SPCoreDataWrapper.h"
 #import "Event.h"
 #import "Event+SXSW.h"
+#import "Artist+SXSW.h"
+#import "Venue+SXSW.h"
+
+static NSString *SXSWSQLITEStorePath = @"sxsw_sandbox.sqlite";
 
 static SPCoreDataWrapper *_sharedInstance = nil;
 static NSManagedObjectContext *_moc = nil;
@@ -78,7 +82,7 @@ static NSPersistentStoreCoordinator *_psc = nil;
         return _psc;
     }
     
-    NSURL *storeURL = [[[self class] applicationDocumentsDirectory] URLByAppendingPathComponent:@"sxsw_sandbox.sqlite"];
+    NSURL *storeURL = [[[self class] applicationDocumentsDirectory] URLByAppendingPathComponent:SXSWSQLITEStorePath];
     
     NSError *error = nil;
     _psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
@@ -131,11 +135,16 @@ static NSPersistentStoreCoordinator *_psc = nil;
 	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-+ (void)seedCoreDataWithSXSWFiles
++ (void)seedCoreDataWithSXSWFilesIfNeeded
 {
-    NSManagedObjectContext *writeContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    [writeContext setParentContext:[[self class] readContext]];
-    [writeContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+    // Fetch something to see if we've seeded already
+    NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"Event"];
+    [fetch setFetchLimit:1];
+    NSArray *results = [[[self class] readContext] executeFetchRequest:fetch error:nil];
+    
+    BOOL alreadySeeded = [results count];    
+    if (alreadySeeded)
+        return;
     
     NSString *eventsDirectory = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"events"];
     NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:eventsDirectory];
@@ -148,26 +157,91 @@ static NSPersistentStoreCoordinator *_psc = nil;
             id jsonObject = [NSJSONSerialization JSONObjectWithData:fileData options:0 error:&error];
             if (error) NSLog(@"Error: %@", [error localizedDescription]);
             
-            NSDictionary *eventDict = nil;
             if (jsonObject) {
                 if ([jsonObject isKindOfClass:[NSArray class]]) {
-                    eventDict = [(NSArray *)jsonObject objectAtIndex:0];
+                    Event *newEvent = [[Event alloc] initWithJSONArray:jsonObject inContext:[self readContext]];
+                    [[self readContext] insertObject:newEvent];
                 }
-                else if ([jsonObject isKindOfClass:[NSDictionary class]])
-                    eventDict = jsonObject;
-                
-                Event *newEvent = [[Event alloc] initWithJSONDictionary:eventDict inContext:writeContext];
-                [writeContext insertObject:newEvent];
             }
         }
     }
     NSError *saveError = nil;
-    [writeContext save:&saveError];
+    [[self readContext] save:&saveError];
     if (saveError) NSLog(@"Save Error: %@", [saveError localizedDescription]);
     
     NSError *mainError = nil;
     [[self readContext] save:&mainError];
     if (mainError) NSLog(@"Main Context Save Error: %@", [mainError localizedDescription]);
+}
+
++ (Artist *)artistForEvent:(Event *)event
+                      name:(NSString *)artistName
+                       url:(NSString *)url
+                     genre:(NSString *)genre
+                    origin:(NSString *)origin
+                  videoURL:(NSString *)videoURL
+                    imgURL:(NSString *)imgURL
+                   songURL:(NSString *)songURL
+                 inContext:(NSManagedObjectContext *)context
+{
+    NSArray *results = nil;
+    if (artistName && artistName.length) {
+        NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"Artist"];
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"SELF.name == %@", artistName]];
+        [fetch setFetchLimit:1];
+        NSError *error = nil;
+        results = [[self readContext] executeFetchRequest:fetch error:&error];
+        if (error) NSLog(@"Error: %@", [error localizedDescription]);
+    }
+    
+    Artist *theArtist = nil;
+    
+    if (results && [results count])
+        theArtist = [results lastObject];
+    else
+        theArtist = [[Artist alloc] initWithJSONDictionary:@{
+                     @"name": artistName,
+                     @"url": url,
+                     @"genre": genre,
+                     @"origin": origin,
+                     @"videoURL": videoURL,
+                     @"imgURL": imgURL,
+                     @"songURL": songURL
+                     } inContext:context];
+    
+    [theArtist addEventsObject:event];
+    
+    return theArtist;
+}
+
++ (Venue *)venueForEvent:(Event *)event
+                    name:(NSString *)venueName
+                 address:(NSString *)addressString
+               inContext:(NSManagedObjectContext *)context
+{
+    NSArray *results = nil;
+    if (venueName && venueName.length) {
+        NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"Venue"];
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"SELF.name == %@", venueName]];
+        [fetch setFetchLimit:1];
+        NSError *error = nil;
+        results = [[self readContext] executeFetchRequest:fetch error:&error];
+        if (error) NSLog(@"Error: %@", [error localizedDescription]);
+    }
+    
+    Venue *theVenue = nil;
+    
+    if (results && [results count])
+        theVenue = [results lastObject];
+    else
+        theVenue = [[Venue alloc] initWithJSONDictionary:@{
+                    @"name": venueName,
+                    @"address": addressString
+                    } inContext:context];
+    
+    [theVenue addEventsObject:event];
+    
+    return theVenue;
 }
 
 @end

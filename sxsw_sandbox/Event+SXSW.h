@@ -13,7 +13,7 @@
 
 + (NSDictionary *)mappingDictionary;
 
-- (id)initWithJSONDictionary:(NSDictionary *)dictionary inContext:(NSManagedObjectContext *)context;
+- (id)initWithJSONArray:(NSArray *)array inContext:(NSManagedObjectContext *)context;
 
 // MKAnnotation
 

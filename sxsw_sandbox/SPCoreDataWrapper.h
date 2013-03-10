@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Artist.h"
+#import "Venue.h"
+#import "Event.h"
 
 @interface SPCoreDataWrapper : NSObject
 
@@ -18,6 +21,21 @@
 + (void)saveContext;
 
 // App Specific Methods
-+ (void)seedCoreDataWithSXSWFiles;
++ (void)seedCoreDataWithSXSWFilesIfNeeded;
+
+// These methods create the object if they did not already exist
++ (Artist *)artistForEvent:(Event *)event
+                      name:(NSString *)artistName
+                       url:(NSString *)url
+                     genre:(NSString *)genre
+                     origin:(NSString *)origin
+                     videoURL:(NSString *)videoURL
+                     imgURL:(NSString *)imgURL
+                   songURL:(NSString *)songURL
+                 inContext:(NSManagedObjectContext *)context;
++ (Venue *)venueForEvent:(Event *)event
+                    name:(NSString *)venueName
+                 address:(NSString *)addressString
+               inContext:(NSManagedObjectContext *)context;
 
 @end

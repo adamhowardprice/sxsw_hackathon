@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A24EDC0816ED099C00400D94 /* sxsw_sandbox.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0516ED099C00400D94 /* sxsw_sandbox.xcdatamodeld */; };
-		A24EDC0C16ED0E0F00400D94 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0A16ED0E0F00400D94 /* Event.m */; };
 		A24EDC0E16ED0F8300400D94 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24EDC0D16ED0F8300400D94 /* CoreLocation.framework */; };
 		A24EDC0F16ED0F8D00400D94 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24EDC0D16ED0F8300400D94 /* CoreLocation.framework */; };
 		A256DBB016ECDF18008BEE50 /* Event+SXSW.m in Sources */ = {isa = PBXBuildFile; fileRef = A256DBAF16ECDF18008BEE50 /* Event+SXSW.m */; };
@@ -37,6 +36,16 @@
 		A2A3934E16EA169500B5921F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A2A3934C16EA169500B5921F /* InfoPlist.strings */; };
 		A2A3935116EA169500B5921F /* sxsw_sandboxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A3935016EA169500B5921F /* sxsw_sandboxTests.m */; };
 		A2A399FF16EA172600B5921F /* events in Resources */ = {isa = PBXBuildFile; fileRef = A2A399FE16EA172600B5921F /* events */; };
+		A2AB51E616ED1CDF0095588D /* Artist+SXSW.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB51E516ED1CDF0095588D /* Artist+SXSW.m */; };
+		A2AB51E716ED1CDF0095588D /* Artist+SXSW.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB51E516ED1CDF0095588D /* Artist+SXSW.m */; };
+		A2AB51EA16ED1CE90095588D /* Venue+SXSW.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB51E916ED1CE90095588D /* Venue+SXSW.m */; };
+		A2AB51EB16ED1CE90095588D /* Venue+SXSW.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB51E916ED1CE90095588D /* Venue+SXSW.m */; };
+		A2AB51EE16ED1D530095588D /* Venue.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB51ED16ED1D530095588D /* Venue.m */; };
+		A2AB51EF16ED1D530095588D /* Venue.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB51ED16ED1D530095588D /* Venue.m */; };
+		A2AB51F616ED1D540095588D /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB51F516ED1D530095588D /* Event.m */; };
+		A2AB51F716ED1D540095588D /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB51F516ED1D530095588D /* Event.m */; };
+		A2AB520316ED2E560095588D /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB520216ED2E560095588D /* Artist.m */; };
+		A2AB520416ED2E560095588D /* Artist.m in Sources */ = {isa = PBXBuildFile; fileRef = A2AB520216ED2E560095588D /* Artist.m */; };
 		BCB29AF616ED05B7006C7384 /* libCocoaLibSpotify.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB29AF116ED05A9006C7384 /* libCocoaLibSpotify.a */; };
 		BCB29AF816ED05DB006C7384 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB29AF716ED05DB006C7384 /* AudioToolbox.framework */; };
 		BCB29AFA16ED05EB006C7384 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB29AF916ED05EB006C7384 /* CFNetwork.framework */; };
@@ -44,7 +53,6 @@
 		BCB29B0116ED06E4006C7384 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB29B0016ED06E4006C7384 /* AVFoundation.framework */; };
 		BCB29B0416ED06FF006C7384 /* ArtistBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB29B0316ED06FF006C7384 /* ArtistBrowseViewController.m */; };
 		BCB29B0616ED0836006C7384 /* SPLoginResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BCB29B0516ED0836006C7384 /* SPLoginResources.bundle */; };
-		BCB29B0C16ED13C7006C7384 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0A16ED0E0F00400D94 /* Event.m */; };
 		BCB29B0E16ED13DD006C7384 /* sxsw_sandbox.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0516ED099C00400D94 /* sxsw_sandbox.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
@@ -81,8 +89,6 @@
 
 /* Begin PBXFileReference section */
 		A24EDC0616ED099C00400D94 /* sxsw_sandbox.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = sxsw_sandbox.xcdatamodel; sourceTree = "<group>"; };
-		A24EDC0916ED0E0F00400D94 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Event.h; path = sxsw_sandbox/Event.h; sourceTree = SOURCE_ROOT; };
-		A24EDC0A16ED0E0F00400D94 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = sxsw_sandbox/Event.m; sourceTree = SOURCE_ROOT; };
 		A24EDC0D16ED0F8300400D94 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A256DBAE16ECDF18008BEE50 /* Event+SXSW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Event+SXSW.h"; path = "sxsw_sandbox/Event+SXSW.h"; sourceTree = SOURCE_ROOT; };
 		A256DBAF16ECDF18008BEE50 /* Event+SXSW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Event+SXSW.m"; path = "sxsw_sandbox/Event+SXSW.m"; sourceTree = SOURCE_ROOT; };
@@ -113,6 +119,16 @@
 		A2A3934F16EA169500B5921F /* sxsw_sandboxTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sxsw_sandboxTests.h; sourceTree = "<group>"; };
 		A2A3935016EA169500B5921F /* sxsw_sandboxTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sxsw_sandboxTests.m; sourceTree = "<group>"; };
 		A2A399FE16EA172600B5921F /* events */ = {isa = PBXFileReference; lastKnownFileType = folder; path = events; sourceTree = "<group>"; };
+		A2AB51E416ED1CDF0095588D /* Artist+SXSW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Artist+SXSW.h"; path = "sxsw_sandbox/Artist+SXSW.h"; sourceTree = SOURCE_ROOT; };
+		A2AB51E516ED1CDF0095588D /* Artist+SXSW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Artist+SXSW.m"; path = "sxsw_sandbox/Artist+SXSW.m"; sourceTree = SOURCE_ROOT; };
+		A2AB51E816ED1CE90095588D /* Venue+SXSW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Venue+SXSW.h"; path = "sxsw_sandbox/Venue+SXSW.h"; sourceTree = SOURCE_ROOT; };
+		A2AB51E916ED1CE90095588D /* Venue+SXSW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Venue+SXSW.m"; path = "sxsw_sandbox/Venue+SXSW.m"; sourceTree = SOURCE_ROOT; };
+		A2AB51EC16ED1D530095588D /* Venue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Venue.h; path = sxsw_sandbox/Venue.h; sourceTree = SOURCE_ROOT; };
+		A2AB51ED16ED1D530095588D /* Venue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Venue.m; path = sxsw_sandbox/Venue.m; sourceTree = SOURCE_ROOT; };
+		A2AB51F416ED1D530095588D /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Event.h; path = sxsw_sandbox/Event.h; sourceTree = SOURCE_ROOT; };
+		A2AB51F516ED1D530095588D /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = sxsw_sandbox/Event.m; sourceTree = SOURCE_ROOT; };
+		A2AB520116ED2E560095588D /* Artist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Artist.h; path = sxsw_sandbox/Artist.h; sourceTree = SOURCE_ROOT; };
+		A2AB520216ED2E560095588D /* Artist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Artist.m; path = sxsw_sandbox/Artist.m; sourceTree = SOURCE_ROOT; };
 		BCB29AEB16ED05A9006C7384 /* CocoaLibSpotify iOS Library.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "CocoaLibSpotify iOS Library.xcodeproj"; path = "cocoalibspotify/iOS Library/CocoaLibSpotify iOS Library.xcodeproj"; sourceTree = "<group>"; };
 		BCB29AF716ED05DB006C7384 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		BCB29AF916ED05EB006C7384 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -162,12 +178,15 @@
 		A239A15816EA1BC500605B0D /* model */ = {
 			isa = PBXGroup;
 			children = (
-				A256DBAE16ECDF18008BEE50 /* Event+SXSW.h */,
-				A256DBAF16ECDF18008BEE50 /* Event+SXSW.m */,
+				A2AB51E216ED1CC90095588D /* categories */,
 				A256DBB116ECE046008BEE50 /* SPCoreDataWrapper.h */,
 				A256DBB216ECE046008BEE50 /* SPCoreDataWrapper.m */,
-				A24EDC0916ED0E0F00400D94 /* Event.h */,
-				A24EDC0A16ED0E0F00400D94 /* Event.m */,
+				A2AB51EC16ED1D530095588D /* Venue.h */,
+				A2AB51ED16ED1D530095588D /* Venue.m */,
+				A2AB51F416ED1D530095588D /* Event.h */,
+				A2AB51F516ED1D530095588D /* Event.m */,
+				A2AB520116ED2E560095588D /* Artist.h */,
+				A2AB520216ED2E560095588D /* Artist.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -285,6 +304,19 @@
 				A2A399FE16EA172600B5921F /* events */,
 			);
 			path = resources;
+			sourceTree = "<group>";
+		};
+		A2AB51E216ED1CC90095588D /* categories */ = {
+			isa = PBXGroup;
+			children = (
+				A256DBAE16ECDF18008BEE50 /* Event+SXSW.h */,
+				A256DBAF16ECDF18008BEE50 /* Event+SXSW.m */,
+				A2AB51E416ED1CDF0095588D /* Artist+SXSW.h */,
+				A2AB51E516ED1CDF0095588D /* Artist+SXSW.m */,
+				A2AB51E816ED1CE90095588D /* Venue+SXSW.h */,
+				A2AB51E916ED1CE90095588D /* Venue+SXSW.m */,
+			);
+			name = categories;
 			sourceTree = "<group>";
 		};
 		BCB29AEC16ED05A9006C7384 /* Products */ = {
@@ -438,8 +470,12 @@
 				A256DBB316ECE046008BEE50 /* SPCoreDataWrapper.m in Sources */,
 				A256DBB716ECED2F008BEE50 /* RootVC.m in Sources */,
 				BCB29B0416ED06FF006C7384 /* ArtistBrowseViewController.m in Sources */,
-				BCB29B0C16ED13C7006C7384 /* Event.m in Sources */,
 				BCB29B0E16ED13DD006C7384 /* sxsw_sandbox.xcdatamodeld in Sources */,
+				A2AB51E616ED1CDF0095588D /* Artist+SXSW.m in Sources */,
+				A2AB51EA16ED1CE90095588D /* Venue+SXSW.m in Sources */,
+				A2AB51EE16ED1D530095588D /* Venue.m in Sources */,
+				A2AB51F616ED1D540095588D /* Event.m in Sources */,
+				A2AB520316ED2E560095588D /* Artist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +488,11 @@
 				A256DBB816ECED2F008BEE50 /* RootVC.m in Sources */,
 				A298C27116ED026600E9FD2C /* Event+SXSW.m in Sources */,
 				A24EDC0816ED099C00400D94 /* sxsw_sandbox.xcdatamodeld in Sources */,
-				A24EDC0C16ED0E0F00400D94 /* Event.m in Sources */,
+				A2AB51E716ED1CDF0095588D /* Artist+SXSW.m in Sources */,
+				A2AB51EB16ED1CE90095588D /* Venue+SXSW.m in Sources */,
+				A2AB51EF16ED1D530095588D /* Venue.m in Sources */,
+				A2AB51F716ED1D540095588D /* Event.m in Sources */,
+				A2AB520416ED2E560095588D /* Artist.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
