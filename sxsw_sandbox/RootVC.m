@@ -11,8 +11,9 @@
 #import "Event.h"
 #import "Event+SXSW.h"
 #import "Venue+SXSW.h"
+#import "AppDelegate.h"
 #import <CoreLocation/CoreLocation.h>
-
+#import <CocoaLibSpotify.h>
 @implementation RootVC
 
 - (id)init
@@ -20,7 +21,7 @@
     if (!(self = [super initWithNibName:nil bundle:nil]))
         return nil;
     
-    [self setTitle:@"Map"];
+    [self setTitle:@"Concerts"];
     
     _results = [[NSMutableArray alloc] init];
     
@@ -141,6 +142,14 @@
 
 }
 
+
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    Event* event = (Event*)view.annotation;
+    [self playEvent:event];
+}
+
+
 /*
 
 
@@ -154,11 +163,7 @@
 {
     
 }
-
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
-{
-    
-}
+ 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
 {
     
@@ -196,4 +201,77 @@ fromOldState:(MKAnnotationViewDragState)oldState
     
 }
 */
+
+#pragma mark - Playback
+
+- (void)playEvent:(Event*)event
+{
+    NSString* artistName = event.artist.name;
+    [SPAsyncLoading waitUntilLoaded:[SPSearch liveSearchWithSearchQuery:artistName inSession:[SPSession sharedSession]]
+                            timeout:kSPAsyncLoadingDefaultTimeout
+                               then:^(NSArray *loadedItems, NSArray *notLoadedItems)
+     {
+         if ([loadedItems count]) {
+             SPSearch* search = [loadedItems lastObject];
+             if ([search.artists count]) {
+                 SPArtist* artist = search.artists[0];
+                 
+                 if ([artist.name compare:search.searchQuery options:NSCaseInsensitiveSearch] == NSOrderedSame) {
+                     [SPAsyncLoading waitUntilLoaded:[SPArtistBrowse browseArtist:artist
+                                                                        inSession:[SPSession sharedSession]
+                                                                             type:SP_ARTISTBROWSE_NO_ALBUMS]
+                                             timeout:kSPAsyncLoadingDefaultTimeout
+                                                then:^(NSArray *loadedItems, NSArray *notLoadedItems)
+                      {
+                          if ([loadedItems count]) {
+                              SPArtistBrowse* browse = [loadedItems lastObject];
+                              SPTrack* track = browse.topTracks[0];
+                              
+                              AppDelegate* delegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+                              
+                              __weak RootVC* weakSelf = self;
+                              [delegate.playbackManager playTrack:track callback:^(NSError *error) {
+                                  if (error) {
+                                      [weakSelf spotifyFailedToPlayEvent:event error:error];
+                                  } else {
+                                      [weakSelf setTitle:artist.name];
+                                  }
+                              }];
+                          } else {
+                              id unloaded = [notLoadedItems lastObject];
+                              [self spotifyFailedToPlayEvent:event error:((SPArtistBrowse*)unloaded).loadError];
+                          }
+                      }];
+                 } else {
+                     NSLog(@"Got search results, but not sure about accuracy: %@ vs. %@",
+                           artist.name,
+                           search.searchQuery);
+                     [self spotifyFailedToPlayEvent:event error:nil];
+                 }                 
+             } else {
+                 [self spotifyFailedToPlayEvent:event error:nil];
+             }
+         } else {
+             id unloaded = [notLoadedItems lastObject];
+             [self spotifyFailedToPlayEvent:event error:((SPSearch*)unloaded).searchError];
+         }
+     }];
+}
+
+- (void)spotifyFailedToPlayEvent:(Event*)event error:(NSError*)error
+{
+    // TODO fall back to event MP3
+
+    if (error) {
+        UIAlertView* trackPlayFailed = [[UIAlertView alloc] initWithTitle:@"Playback Failed"
+                                                                  message:[error description]
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil];
+        [trackPlayFailed show];
+    } else {
+        NSLog(@"No results for event: %@", event.artist);
+    }
+}
+
 @end
