@@ -25,4 +25,6 @@
 
 - (void)didGeocodVenueAddress;
 
+- (BOOL)isHappeningAtDate:(NSDate *)date;
+
 @end

@@ -63,7 +63,7 @@
     [_rightButton addTarget:self action:@selector(doRight:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_rightButton];
     
-    _timeSlider = [[UISlider alloc] initWithFrame:CGRectMake(5, 5, self.view.bounds.size.width, 30.0f)];
+    _timeSlider = [[UISlider alloc] initWithFrame:CGRectMake(5, 5, self.view.bounds.size.width - 10, 30.0f)];
     [_timeSlider addTarget:self action:@selector(doChangeSlider:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_timeSlider];
 }
@@ -99,18 +99,21 @@
                                   return distance1 > distance2;
                               }];
     [_results addObjectsFromArray:sortedResults];
+    [_mapView removeAnnotations:[_mapView annotations]];
     [_mapView addAnnotations:_results];
 }
 
 - (void)setCurrentDay:(int)day
 {
-    if (_currentDay != day) {
+    if (_currentDay != day && day < 5 && day >= 0) {
         _currentDay = day;
         
-        NSUInteger dateForDateString = [NSString concertDayForDateString:@""];
+        NSString *dateString = [NSString dateStringForConcertDay:_currentDay];
+        
+        NSLog(@"Current Day: %@", dateString);
         
         NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Event"];
-        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@""]];
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"SELF.day == %@", dateString]];
         NSError *error = nil;
         NSArray *results = [[SPCoreDataWrapper readContext] executeFetchRequest:fetchRequest error:&error];
         if (error) NSLog(@"Error: %@", [error localizedDescription]);
@@ -174,6 +177,10 @@
 
 - (void)doChangeSlider:(UISlider *)slider
 {
+    NSDate *earliestDate = [NSDate dateWithTimeIntervalSince1970:384856200];
+    NSDate *latestDate = [NSDate dateWithTimeIntervalSince1970:384954600];
+    
+    
     float increment = 0.167;
     int day = 0;
     if (slider.value < increment)
@@ -188,6 +195,8 @@
         day = 4;
     else if (slider.value < increment * 6)
         day = 5;
+    
+    [self setCurrentDay:day];
 }
 
 #pragma mark MKMapViewDelegate

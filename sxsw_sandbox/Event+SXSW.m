@@ -9,6 +9,7 @@
 #import "Event+SXSW.h"
 #import "Artist+SXSW.h"
 #import "Venue+SXSW.h"
+#import "NSDate+SXSW.h"
 #import "SPCoreDataWrapper.h"
 #import "Artist.h"
 #import "Venue.h"
@@ -186,9 +187,9 @@ static NSDictionary *EventMapppingDictionary = nil;
     }
 }
 
-- (void)didGeocodVenueAddress
+- (BOOL)isHappeningAtDate:(NSDate *)date
 {
-    
+    return [self.endDate timeIntervalSinceDate:date] > 0 && [self.startDate timeIntervalSinceDate:date] < 0;
 }
 
 @end

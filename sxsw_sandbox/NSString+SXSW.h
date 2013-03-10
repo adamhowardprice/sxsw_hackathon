@@ -11,5 +11,6 @@
 @interface NSString (SXSW)
 
 + (NSUInteger)concertDayForDateString:(NSString *)dateString;
++ (NSString *)dateStringForConcertDay:(NSUInteger)index;
 
 @end
