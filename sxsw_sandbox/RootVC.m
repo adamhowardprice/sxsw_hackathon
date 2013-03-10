@@ -42,6 +42,13 @@
     if (error) NSLog(@"Error: %@", [error localizedDescription]);
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [SPCoreDataWrapper removeVenuesWithNoCoordinates];
+}
+
 #pragma mark Private Return Methods
 
 - (UIImageView *)spotifyBullseye
@@ -88,7 +95,7 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    
+    NSLog(@"Controller Fetched Objs: %@", [controller fetchedObjects]);
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller;
@@ -105,8 +112,8 @@
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
 {
     NSError *error = nil;
-    [_frc performFetch:&error];
-    if (error) NSLog(@"Error: %@", [error localizedDescription]);
+    BOOL fetched = [[self fetchedResultsController] performFetch:&error];
+    if (!fetched || error) NSLog(@"Error: %@", [error localizedDescription]);
 }
 - (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error
 {

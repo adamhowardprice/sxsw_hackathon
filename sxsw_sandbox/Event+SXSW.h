@@ -23,4 +23,6 @@
 
 - (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate;
 
+- (void)didGeocodVenueAddress;
+
 @end

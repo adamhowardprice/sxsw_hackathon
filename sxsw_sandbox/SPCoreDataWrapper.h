@@ -38,4 +38,5 @@
                  address:(NSString *)addressString
                inContext:(NSManagedObjectContext *)context;
 
++ (void)removeVenuesWithNoCoordinates;
 @end

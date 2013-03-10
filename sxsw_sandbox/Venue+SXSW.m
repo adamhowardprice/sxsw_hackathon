@@ -8,11 +8,11 @@
 
 #import "Venue+SXSW.h"
 #import "Event+SXSW.h"
+#import "SPCoreDataWrapper.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
 static NSDictionary *VenueMapppingDictionary = nil;
-static CLGeocoder *_forwardGeocoder = nil;
 
 @implementation Venue (SXSW)
 
@@ -48,11 +48,10 @@ static CLGeocoder *_forwardGeocoder = nil;
 
 - (void)setForwaredGeocodedLatLngForAddress:(NSString *)addressString context:(NSManagedObjectContext *)context
 {
-    if (!_forwardGeocoder)
-        _forwardGeocoder = [[CLGeocoder alloc] init];
-    
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+        
     __block Venue *selff = self;
-    [_forwardGeocoder geocodeAddressString:[addressString stringByAppendingString:@", Austin, TX"]
+    [geocoder geocodeAddressString:[addressString stringByAppendingString:@", Austin, TX"]
                          completionHandler:^(NSArray *placemarks, NSError *error) {
                              CLPlacemark *pmark = [placemarks count] ? [placemarks lastObject] : nil;
                              if (pmark) {

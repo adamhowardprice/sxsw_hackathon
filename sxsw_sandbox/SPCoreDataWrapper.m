@@ -18,8 +18,10 @@ static SPCoreDataWrapper *_sharedInstance = nil;
 static NSManagedObjectContext *_moc = nil;
 static NSManagedObjectModel *_mom = nil;
 static NSPersistentStoreCoordinator *_psc = nil;
+static int _geocodingCount = 0;
 
 @interface SPCoreDataWrapper ()
+
 + (SPCoreDataWrapper *)sharedInstance;
 
 @end
@@ -242,6 +244,22 @@ static NSPersistentStoreCoordinator *_psc = nil;
     [theVenue addEventsObject:event];
     
     return theVenue;
+}
+
++ (void)removeVenuesWithNoCoordinates
+{
+    NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"Venue"];
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.lat == %@", @(0.0)];
+    [fetch setPredicate:pred];
+    NSError *error = nil;
+    NSArray *results = [[self readContext] executeFetchRequest:fetch error:&error];
+    if ([results count]) {
+        for (Venue *venue in results) {
+            [[self readContext] deleteObject:venue];
+        }
+        NSError *saveError = nil;
+        [[self readContext] save:&saveError];
+    }
 }
 
 @end

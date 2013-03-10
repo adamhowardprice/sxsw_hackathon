@@ -135,12 +135,9 @@ static NSDictionary *EventMapppingDictionary = nil;
                                                              address:venueDict[@"address"]
                                                            inContext:context];
                      }
-                 } else {
-                     [self setValue:tmpValue forKey:propertyName];
                  }
                  
-
-                 
+                 [self setValue:tmpValue forKey:propertyName];
              }
          }];
     }
@@ -177,6 +174,11 @@ static NSDictionary *EventMapppingDictionary = nil;
         [self.venue setLat:@(newCoordinate.latitude)];
         [self.venue setLng:@(newCoordinate.longitude)];
     }
+}
+
+- (void)didGeocodVenueAddress
+{
+    
 }
 
 @end
