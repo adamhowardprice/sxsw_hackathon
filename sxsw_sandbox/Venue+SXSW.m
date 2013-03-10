@@ -10,7 +10,6 @@
 #import "Event+SXSW.h"
 #import "SPCoreDataWrapper.h"
 #import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
 
 static NSDictionary *VenueMapppingDictionary = nil;
 
@@ -66,6 +65,14 @@ static NSDictionary *VenueMapppingDictionary = nil;
                                  if (error) NSLog(@"Error: %@", [error localizedDescription]);
                              }
                          }];
+}
+
+- (float)distanceToCoordinate:(CLLocationCoordinate2D)coordinate
+{
+    CLLocation *otherLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+    CLLocation *theLocation = [[CLLocation alloc] initWithLatitude:[self.lat doubleValue] longitude:[self.lng doubleValue]];
+    CLLocationDistance distance = [otherLocation distanceFromLocation:theLocation];
+    return distance;
 }
 
 @end

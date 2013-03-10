@@ -7,9 +7,11 @@
 //
 
 #import "Venue.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface Venue (SXSW)
 
 - (id)initWithJSONDictionary:(NSDictionary *)dictionary inContext:(NSManagedObjectContext *)context;
+- (float)distanceToCoordinate:(CLLocationCoordinate2D)coordinate;
 
 @end

@@ -9,15 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@interface RootVC : UIViewController <MKMapViewDelegate, NSFetchedResultsControllerDelegate>
+@interface RootVC : UIViewController <MKMapViewDelegate>
 {
     MKMapView *_mapView;
-    
-    UIImageView *_spotifyBullseye;
-    
-    NSFetchedResultsController *_frc;
+        
+    NSMutableArray *_results;
 }
 @property (nonatomic, strong) MKMapView *mapView;
-@property (nonatomic, strong) UIImageView *spotifyBullseye;
 
 @end

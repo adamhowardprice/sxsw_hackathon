@@ -10,6 +10,7 @@
 #import "SPCoreDataWrapper.h"
 #import "Event.h"
 #import "Event+SXSW.h"
+#import "Venue+SXSW.h"
 #import <CoreLocation/CoreLocation.h>
 
 @implementation RootVC
@@ -20,6 +21,8 @@
         return nil;
     
     [self setTitle:@"Map"];
+    
+    _results = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -35,11 +38,6 @@
     [_mapView setDelegate:self];
     [_mapView setShowsUserLocation:YES];
     [self.view addSubview:_mapView];
-    
-    _frc = [self fetchedResultsController];
-    NSError *error = nil;
-    [_frc setDelegate:self];
-    if (error) NSLog(@"Error: %@", [error localizedDescription]);
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -51,37 +49,11 @@
 
 #pragma mark Private Return Methods
 
-- (UIImageView *)spotifyBullseye
-{
-    if (!_spotifyBullseye)
-    {
-        CGFloat const margin = 5.0f;
-        _spotifyBullseye = [[UIImageView alloc] initWithFrame:CGRectMake(margin, margin, _mapView.bounds.size.width - margin * 2, _mapView.bounds.size.height - margin * 2)];
-        [_spotifyBullseye setImage:[UIImage imageNamed:@"images/spot_gradient.png"]];
-        [_spotifyBullseye setContentMode:UIViewContentModeScaleAspectFit];
-        [_spotifyBullseye setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin];
-    }
-    return _spotifyBullseye;
-}
-
 - (NSFetchRequest *)fetchRequest
 {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Event"];
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"SELF.artist != nil"]];
-    [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"artist" ascending:YES]]];
-    [fetchRequest setFetchLimit:10];
+    [fetchRequest setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"url" ascending:YES]]];
     return fetchRequest;
-}
-
-- (NSFetchedResultsController *)fetchedResultsController
-{
-    if (!_frc)
-    {
-        _frc = [[NSFetchedResultsController alloc] initWithFetchRequest:[self fetchRequest]
-                                                   managedObjectContext:[SPCoreDataWrapper readContext] sectionNameKeyPath:nil
-                                                              cacheName:@"MainCache"];
-    }
-    return _frc;
 }
 
 #pragma mark Private Methods
@@ -91,30 +63,25 @@
     
 }
 
-#pragma mark NSFetchedResultsControllerDelegate
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-    NSLog(@"Controller Fetched Objs: %@", [controller fetchedObjects]);
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller;
-{
-    NSLog(@"Controller Did Change Content. Count: %d", [[controller fetchedObjects] count]);
-    
-    // Reload map?
-    if (_mapView)
-        [_mapView addAnnotations:[controller fetchedObjects]];
-}
-
 #pragma mark MKMapViewDelegate
 
 - (void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
 {
     NSError *error = nil;
-    BOOL fetched = [[self fetchedResultsController] performFetch:&error];
-    if (!fetched || error) NSLog(@"Error: %@", [error localizedDescription]);
+    NSFetchRequest *fetch = [self fetchRequest];
+    NSArray *results = [[SPCoreDataWrapper readContext] executeFetchRequest:fetch error:&error];
+    if (error) NSLog(@"Error: %@", error);
+    NSArray *sortedResults = [results sortedArrayUsingComparator:
+                              ^NSComparisonResult(id obj1, id obj2)
+    {
+        float distance1 = [[(Event *)obj1 venue] distanceToCoordinate:mapView.userLocation.coordinate];
+        float distance2 = [[(Event *)obj2 venue] distanceToCoordinate:mapView.userLocation.coordinate];
+        return distance1 > distance2;
+    }];
+    [_results addObjectsFromArray:sortedResults];
+    [mapView addAnnotations:_results];
 }
+
 - (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error
 {
     NSLog(@"ERROR LOADING MAP: %@", [error localizedDescription]);
@@ -126,18 +93,6 @@
     [mapView setRegion:[mapView regionThatFits:region]];
     
     NSLog(@"User Location: %f %f", userLocation.coordinate.latitude, userLocation.coordinate.longitude);
-    
-    BOOL firstTime = !_spotifyBullseye;
-    if (firstTime) {
-        _spotifyBullseye = [self spotifyBullseye];
-        [_spotifyBullseye setAlpha:0.0f];
-        [self.view addSubview:_spotifyBullseye];
-        [UIView animateWithDuration:0.3f
-                         animations:^{
-                             [_spotifyBullseye setAlpha:1.0f];
-                         }
-                         completion:nil];
-    }
 }
 - (void)mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error
 {
@@ -171,18 +126,23 @@
 // Use the current positions of the annotation views as the destinations of the animation.
 - (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {
+    NSLog(@"Added Views: %d", [views count]);
     
+    if ([_results count])
+        [mapView selectAnnotation:_results[0] animated:YES];
 }
 
-/*
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
 {
     
 }
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    
+
 }
+
+/*
+
 
 - (void)mapViewWillStartLoadingMap:(MKMapView *)mapView
 {
