@@ -7,6 +7,8 @@
 //
 
 #import "SPCoreDataWrapper.h"
+#import "Event.h"
+#import "Event+SXSW.h"
 
 static SPCoreDataWrapper *_sharedInstance = nil;
 static NSManagedObjectContext *_moc = nil;
@@ -127,6 +129,45 @@ static NSPersistentStoreCoordinator *_psc = nil;
 + (NSURL *)applicationDocumentsDirectory
 {
 	return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
++ (void)seedCoreDataWithSXSWFiles
+{
+    NSManagedObjectContext *writeContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [writeContext setParentContext:[[self class] readContext]];
+    [writeContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+    
+    NSString *eventsDirectory = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"events"];
+    NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:eventsDirectory];
+    
+    NSString *file;
+    while (file = [enumerator nextObject]) {
+        if ([[file pathExtension] isEqualToString:@"json"]) {
+            NSData *fileData = [NSData dataWithContentsOfFile:[eventsDirectory stringByAppendingPathComponent:file]];
+            NSError *error = nil;
+            id jsonObject = [NSJSONSerialization JSONObjectWithData:fileData options:0 error:&error];
+            if (error) NSLog(@"Error: %@", [error localizedDescription]);
+            
+            NSDictionary *eventDict = nil;
+            if (jsonObject) {
+                if ([jsonObject isKindOfClass:[NSArray class]]) {
+                    eventDict = [(NSArray *)jsonObject objectAtIndex:0];
+                }
+                else if ([jsonObject isKindOfClass:[NSDictionary class]])
+                    eventDict = jsonObject;
+                
+                Event *newEvent = [[Event alloc] initWithJSONDictionary:eventDict inContext:writeContext];
+                [writeContext insertObject:newEvent];
+            }
+        }
+    }
+    NSError *saveError = nil;
+    [writeContext save:&saveError];
+    if (saveError) NSLog(@"Save Error: %@", [saveError localizedDescription]);
+    
+    NSError *mainError = nil;
+    [[self readContext] save:&mainError];
+    if (mainError) NSLog(@"Main Context Save Error: %@", [mainError localizedDescription]);
 }
 
 @end

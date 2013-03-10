@@ -81,8 +81,8 @@
 
 /* Begin PBXFileReference section */
 		A24EDC0616ED099C00400D94 /* sxsw_sandbox.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = sxsw_sandbox.xcdatamodel; sourceTree = "<group>"; };
-		A24EDC0916ED0E0F00400D94 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Event.h; sourceTree = SOURCE_ROOT; };
-		A24EDC0A16ED0E0F00400D94 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Event.m; sourceTree = SOURCE_ROOT; };
+		A24EDC0916ED0E0F00400D94 /* Event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Event.h; path = sxsw_sandbox/Event.h; sourceTree = SOURCE_ROOT; };
+		A24EDC0A16ED0E0F00400D94 /* Event.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Event.m; path = sxsw_sandbox/Event.m; sourceTree = SOURCE_ROOT; };
 		A24EDC0D16ED0F8300400D94 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A256DBAE16ECDF18008BEE50 /* Event+SXSW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Event+SXSW.h"; path = "sxsw_sandbox/Event+SXSW.h"; sourceTree = SOURCE_ROOT; };
 		A256DBAF16ECDF18008BEE50 /* Event+SXSW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Event+SXSW.m"; path = "sxsw_sandbox/Event+SXSW.m"; sourceTree = SOURCE_ROOT; };

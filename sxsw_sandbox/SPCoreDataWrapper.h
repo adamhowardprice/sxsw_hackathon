@@ -17,4 +17,7 @@
 + (NSURL *)applicationDocumentsDirectory;
 + (void)saveContext;
 
+// App Specific Methods
++ (void)seedCoreDataWithSXSWFiles;
+
 @end

@@ -93,6 +93,8 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller;
 {
+    NSLog(@"Controller Did Change Content. Count: %d", [[controller fetchedObjects] count]);
+    
     // Reload map?
     if (_mapView)
         [_mapView addAnnotations:[controller fetchedObjects]];

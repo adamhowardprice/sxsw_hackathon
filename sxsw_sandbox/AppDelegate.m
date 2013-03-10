@@ -120,6 +120,8 @@
         // ^ To allow the user to cancel (i.e., your application doesn't require a logged-in Spotify user, set this to YES.
         [_rootVC.navigationController presentViewController:controller animated:NO completion:nil];
     }
+    
+    [SPCoreDataWrapper seedCoreDataWithSXSWFiles];
 }
 
 - (BOOL)maybeAutologin
