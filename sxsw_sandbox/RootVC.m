@@ -9,6 +9,7 @@
 #import "RootVC.h"
 #import "SPCoreDataWrapper.h"
 #import "Event.h"
+#import "Event+SXSW.h"
 #import <CoreLocation/CoreLocation.h>
 
 @implementation RootVC

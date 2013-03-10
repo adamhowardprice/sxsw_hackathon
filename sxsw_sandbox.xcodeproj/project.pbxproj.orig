@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A24EDC0716ED099C00400D94 /* sxsw_sandbox.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0516ED099C00400D94 /* sxsw_sandbox.xcdatamodeld */; };
 		A24EDC0816ED099C00400D94 /* sxsw_sandbox.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0516ED099C00400D94 /* sxsw_sandbox.xcdatamodeld */; };
+		A24EDC0B16ED0E0F00400D94 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0A16ED0E0F00400D94 /* Event.m */; };
 		A24EDC0C16ED0E0F00400D94 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0A16ED0E0F00400D94 /* Event.m */; };
 		A24EDC0E16ED0F8300400D94 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24EDC0D16ED0F8300400D94 /* CoreLocation.framework */; };
 		A24EDC0F16ED0F8D00400D94 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24EDC0D16ED0F8300400D94 /* CoreLocation.framework */; };
@@ -44,8 +46,6 @@
 		BCB29B0116ED06E4006C7384 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB29B0016ED06E4006C7384 /* AVFoundation.framework */; };
 		BCB29B0416ED06FF006C7384 /* ArtistBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCB29B0316ED06FF006C7384 /* ArtistBrowseViewController.m */; };
 		BCB29B0616ED0836006C7384 /* SPLoginResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = BCB29B0516ED0836006C7384 /* SPLoginResources.bundle */; };
-		BCB29B0C16ED13C7006C7384 /* Event.m in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0A16ED0E0F00400D94 /* Event.m */; };
-		BCB29B0E16ED13DD006C7384 /* sxsw_sandbox.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A24EDC0516ED099C00400D94 /* sxsw_sandbox.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,8 +193,12 @@
 		A2A3931316EA169400B5921F = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
+=======
 				BCB29B0516ED0836006C7384 /* SPLoginResources.bundle */,
 				BCB29AEB16ED05A9006C7384 /* CocoaLibSpotify iOS Library.xcodeproj */,
+				A239A16116EA1F7B00605B0D /* events */,
+>>>>>>> eae70fa... added cocoalibspotify and artistbrowsevc
 				A2A3932716EA169400B5921F /* sxsw_sandbox */,
 				A2A3934916EA169500B5921F /* sxsw_sandboxTests */,
 				A2A3931E16EA169400B5921F /* Frameworks */,
@@ -214,11 +218,14 @@
 		A2A3931E16EA169400B5921F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				A24EDC0D16ED0F8300400D94 /* CoreLocation.framework */,
+=======
 				BCB29B0016ED06E4006C7384 /* AVFoundation.framework */,
 				BCB29AFD16ED063A006C7384 /* libstdc++.dylib */,
 				BCB29AF916ED05EB006C7384 /* CFNetwork.framework */,
 				BCB29AF716ED05DB006C7384 /* AudioToolbox.framework */,
+>>>>>>> eae70fa... added cocoalibspotify and artistbrowsevc
 				A256DBB916ECEF34008BEE50 /* MapKit.framework */,
 				A2A3931F16EA169400B5921F /* UIKit.framework */,
 				A2A3932116EA169400B5921F /* Foundation.framework */,
@@ -437,9 +444,13 @@
 				A256DBB016ECDF18008BEE50 /* Event+SXSW.m in Sources */,
 				A256DBB316ECE046008BEE50 /* SPCoreDataWrapper.m in Sources */,
 				A256DBB716ECED2F008BEE50 /* RootVC.m in Sources */,
+<<<<<<< HEAD
+				A24EDC0716ED099C00400D94 /* sxsw_sandbox.xcdatamodeld in Sources */,
+				A24EDC0B16ED0E0F00400D94 /* Event.m in Sources */,
+=======
+				A298C27616ED042500E9FD2C /* sxsw_sandbox.xcdatamodeld in Sources */,
 				BCB29B0416ED06FF006C7384 /* ArtistBrowseViewController.m in Sources */,
-				BCB29B0C16ED13C7006C7384 /* Event.m in Sources */,
-				BCB29B0E16ED13DD006C7384 /* sxsw_sandbox.xcdatamodeld in Sources */,
+>>>>>>> eae70fa... added cocoalibspotify and artistbrowsevc
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

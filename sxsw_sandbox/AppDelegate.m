@@ -8,6 +8,11 @@
 
 #import "AppDelegate.h"
 #import "SPCoreDataWrapper.h"
+#import <CocoaLibSpotify.h>
+#import "appkey.h"
+
+#define kDefaultSpotifyUserCredentials @"SpotifyUser"
+#define SP_LIBSPOTIFY_DEBUG_LOGGING 0
 
 @implementation AppDelegate
 
@@ -25,6 +30,9 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_rootVC];
     [self.window setRootViewController:nav];
     [self.window makeKeyAndVisible];
+    
+    [self setupSpotify];
+    
     return YES;
 }
 
@@ -82,6 +90,138 @@
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
     return [SPCoreDataWrapper persistentStoreCoordinator];
+}
+
+#pragma mark - CocoaLibSpotify
+
+#pragma mark Utils
+
+- (void)setupSpotify
+{
+	NSString *userAgent = [[[NSBundle mainBundle] infoDictionary] valueForKey:(__bridge NSString *)kCFBundleIdentifierKey];
+	NSData *appKey = [NSData dataWithBytes:&g_appkey length:g_appkey_size];
+    
+	NSError *error = nil;
+	[SPSession initializeSharedSessionWithApplicationKey:appKey
+											   userAgent:userAgent
+										   loadingPolicy:SPAsyncLoadingManual
+												   error:&error];
+	if (error != nil) {
+		NSLog(@"CocoaLibSpotify init failed: %@", error);
+		abort();
+	}
+    
+	[[SPSession sharedSession] setDelegate:self];
+    self.playbackManager = [[SPPlaybackManager alloc] initWithPlaybackSession:[SPSession sharedSession]];
+    
+    if (![self maybeAutologin]) {
+        SPLoginViewController *controller = [SPLoginViewController loginControllerForSession:[SPSession sharedSession]];
+        controller.allowsCancel = NO;
+        // ^ To allow the user to cancel (i.e., your application doesn't require a logged-in Spotify user, set this to YES.
+        [_rootVC.navigationController presentViewController:controller animated:NO completion:nil];
+    }
+}
+
+- (BOOL)maybeAutologin
+{
+    NSDictionary* user = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kDefaultSpotifyUserCredentials];
+    if (!user) {
+        return NO;
+    }
+    
+    [[SPSession sharedSession] attemptLoginWithUserName:[[user allKeys] lastObject] existingCredential:[[user allValues] lastObject]];
+    
+    // TODO: show modal login activity indicator
+    
+    return YES;
+}
+
+#pragma mark SPSessionDelegate Methods
+
+-(void)sessionDidLoginSuccessfully:(SPSession *)aSession {
+	// Called after a successful login.
+    
+	[SPAsyncLoading waitUntilLoaded:aSession timeout:kSPAsyncLoadingDefaultTimeout then:^
+     (NSArray *loadedItems, NSArray *notLoadedItems) {
+         if (![loadedItems containsObject:aSession]) {
+             [NSException raise:@"Session failed to load" format:@"Not loaded items %@", notLoadedItems];
+         }
+         
+         [SPAsyncLoading waitUntilLoaded:aSession.user timeout:kSPAsyncLoadingDefaultTimeout then:^
+          (NSArray *loadedItems, NSArray *notLoadedItems) {
+              if (![loadedItems containsObject:aSession.user]) {
+                  [NSException raise:@"Session user failed to load" format:@"Not loaded items %@", notLoadedItems];
+              }
+              
+              if (_rootVC.navigationController.presentedViewController) {
+                  [_rootVC.navigationController dismissViewControllerAnimated:YES completion:nil];
+                  return;
+              }
+              
+              UIAlertView* loggedIn = [[UIAlertView alloc] initWithTitle:@"Logged in!"
+                                                                 message:nil
+                                                                delegate:nil
+                                                       cancelButtonTitle:@"OK"
+                                                       otherButtonTitles:nil];
+              [loggedIn show];
+          }];
+     }];
+}
+
+-(void)session:(SPSession *)aSession didFailToLoginWithError:(NSError *)error {
+	// Called after a failed login. SPLoginViewController will deal with this for us.
+    if ([_rootVC.navigationController.presentedViewController isKindOfClass:[SPLoginViewController class]]) {
+        return;
+    }
+    
+    SPLoginViewController *controller = [SPLoginViewController loginControllerForSession:[SPSession sharedSession]];
+    controller.allowsCancel = NO;
+    // ^ To allow the user to cancel (i.e., your application doesn't require a logged-in Spotify user, set this to YES.
+    [_rootVC.navigationController presentViewController:controller animated:YES completion:nil];
+}
+
+-(void)sessionDidLogOut:(SPSession *)aSession; {
+	// Called after a logout has been completed.
+}
+
+-(void)session:(SPSession *)aSession didGenerateLoginCredentials:(NSString *)credential forUserName:(NSString *)userName {
+    
+	// Called when login credentials are created. If you want to save user logins, uncomment the code below.
+    
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSMutableDictionary *storedCredentials = [[defaults valueForKey:kDefaultSpotifyUserCredentials] mutableCopy];
+    
+	if (storedCredentials == nil)
+		storedCredentials = [NSMutableDictionary dictionary];
+    
+	[storedCredentials setValue:credential forKey:userName];
+	[defaults setValue:storedCredentials forKey:kDefaultSpotifyUserCredentials];
+}
+
+-(void)session:(SPSession *)aSession didEncounterNetworkError:(NSError *)error; {
+	if (SP_LIBSPOTIFY_DEBUG_LOGGING != 0)
+		NSLog(@"CocoaLS NETWORK ERROR: %@", error);
+}
+
+-(void)session:(SPSession *)aSession didLogMessage:(NSString *)aMessage; {
+	if (SP_LIBSPOTIFY_DEBUG_LOGGING != 0)
+		NSLog(@"CocoaLS DEBUG: %@", aMessage);
+}
+
+-(void)sessionDidChangeMetadata:(SPSession *)aSession; {
+	// Called when metadata has been updated somewhere in the
+	// CocoaLibSpotify object model. You don't normally need to do
+	// anything here. KVO on the metadata you're interested in instead.
+}
+
+-(void)session:(SPSession *)aSession recievedMessageForUser:(NSString *)aMessage; {
+	// Called when the Spotify service wants to relay a piece of information to the user.
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"From Spotify"
+													message:aMessage
+												   delegate:nil
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles:nil];
+	[alert show];
 }
 
 @end
