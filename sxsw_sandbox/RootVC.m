@@ -16,13 +16,13 @@
 #import <CocoaLibSpotify.h>
 #import <CoreLocation/CoreLocation.h>
 
-
-@interface RootVC()
+@interface RootVC ()
 {
     int _currentDay;
 }
-
+@property (nonatomic, strong) SPArtistBrowse* spCurrentArtist;
 @end
+
 @implementation RootVC
 
 - (id)init
@@ -350,6 +350,7 @@ fromOldState:(MKAnnotationViewDragState)oldState
                                   if (error) {
                                       [weakSelf spotifyFailedToPlayEvent:event error:error];
                                   } else {
+                                      weakSelf.spCurrentArtist = browse;
                                       [weakSelf setTitle:artist.name];
                                   }
                               }];
