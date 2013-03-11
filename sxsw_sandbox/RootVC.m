@@ -34,6 +34,7 @@
     [self setTitle:@"Concerts"];
     
     _results = [[NSMutableArray alloc] init];
+    _filteredResults = [[NSMutableArray alloc] init];
     
     return self;
 }
@@ -90,7 +91,6 @@
 - (void)reloadMapDataWithResults:(NSArray *)results
 {
     // Prepare
-    [_results removeAllObjects];
     NSArray *sortedResults = [results sortedArrayUsingComparator:
                               ^NSComparisonResult(id obj1, id obj2)
                               {
@@ -98,27 +98,86 @@
                                   float distance2 = [[(Event *)obj2 venue] distanceToCoordinate:_mapView.userLocation.coordinate];
                                   return distance1 > distance2;
                               }];
-    [_results addObjectsFromArray:sortedResults];
-    [_mapView removeAnnotations:[_mapView annotations]];
-    [_mapView addAnnotations:_results];
+    [_filteredResults removeAllObjects];
+    [_filteredResults addObjectsFromArray:sortedResults];
+    NSMutableArray *annotations = [NSMutableArray arrayWithArray:[_mapView annotations]];
+    [annotations removeObjectIdenticalTo:[_mapView userLocation]];
+    [_mapView removeAnnotations:annotations];
+    [_mapView addAnnotations:_filteredResults];
+    
+    if ([_filteredResults count])
+        [_mapView selectAnnotation:_filteredResults[0] animated:NO];
 }
 
-- (void)setCurrentDay:(int)day
+- (void)filterBasedOnCurrentTime
 {
-    if (_currentDay != day && day < 5 && day >= 0) {
-        _currentDay = day;
-        
-        NSString *dateString = [NSString dateStringForConcertDay:_currentDay];
-        
-        NSLog(@"Current Day: %@", dateString);
-        
-        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Event"];
-        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"SELF.day == %@", dateString]];
-        NSError *error = nil;
-        NSArray *results = [[SPCoreDataWrapper readContext] executeFetchRequest:fetchRequest error:&error];
-        if (error) NSLog(@"Error: %@", [error localizedDescription]);
-        [self reloadMapDataWithResults:results];
-    }
+    int earliestInt = 1363244400;
+    int latestInt = 1363262340;
+    
+    int difference = latestInt - earliestInt;
+    
+    int timeInInt = earliestInt + floorf(difference * _timeSlider.value);
+    _currentTime = [NSDate dateWithTimeIntervalSince1970:timeInInt];
+    
+    NSLog(@"Current Time: %@", _currentTime);
+    
+//    NSLog(@"Time in Ints: %d", timeInInt);
+//    NSLog(@"Current Time: %@", _currentTime);
+    
+    NSIndexSet *filteredResultsIndices = [_results indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        return [(Event *)obj isHappeningAtDate:_currentTime];
+    }];
+
+    NSArray *filteredResults = [_results objectsAtIndexes:filteredResultsIndices];
+    
+    [self reloadMapDataWithResults:filteredResults];
+}
+
+- (void)refreshMapRegionIncludingCurrentMapRegion:(BOOL)inIncluding animated:(BOOL)animated
+{
+	MKCoordinateRegion tmpRegion = [_mapView region];
+    
+	CLLocationCoordinate2D topLeftCoord;
+	if (inIncluding)
+	{
+		topLeftCoord.latitude = tmpRegion.center.latitude - tmpRegion.span.latitudeDelta * 0.5;
+		topLeftCoord.longitude = tmpRegion.center.longitude - tmpRegion.span.longitudeDelta * 0.5;
+	}
+	else
+	{
+		topLeftCoord.latitude = -90;
+		topLeftCoord.longitude = 180;
+	}
+    
+	CLLocationCoordinate2D bottomRightCoord;
+	if (inIncluding)
+	{
+		bottomRightCoord.latitude = tmpRegion.center.latitude + tmpRegion.span.latitudeDelta * 0.5;
+		bottomRightCoord.longitude = tmpRegion.center.longitude + tmpRegion.span.longitudeDelta * 0.5;
+	}
+	else
+	{
+		bottomRightCoord.latitude = 90;
+		bottomRightCoord.longitude = -180;
+	}
+	
+//	if (inIncluding)
+//		return;
+    
+	tmpRegion.center.latitude = topLeftCoord.latitude - (topLeftCoord.latitude - bottomRightCoord.latitude) * 0.5;
+	tmpRegion.center.longitude = topLeftCoord.longitude + (bottomRightCoord.longitude - topLeftCoord.longitude) * 0.5;
+    
+	tmpRegion.span.latitudeDelta = fabs(topLeftCoord.latitude - bottomRightCoord.latitude) * 1.175;
+    
+	// Add a little extra space on the sides
+	tmpRegion.span.longitudeDelta = fabs(bottomRightCoord.longitude - topLeftCoord.longitude) * 1.175;
+    
+	if (tmpRegion.span.longitudeDelta < 0.01f && tmpRegion.span.latitudeDelta < 0.01f)
+		tmpRegion.span = MKCoordinateSpanMake(0.01f, 0.01f);
+    
+	// Add a little extra space on the sides
+	tmpRegion = [_mapView regionThatFits:tmpRegion];
+	[_mapView setRegion:tmpRegion animated:YES];
 }
 
 #pragma mark Actions
@@ -130,19 +189,19 @@
     if ([[_mapView selectedAnnotations] count]) {
         Event *selectedEvent = [[_mapView selectedAnnotations] lastObject];
         if (selectedEvent) {
-            NSUInteger index = [_results indexOfObject:selectedEvent];
+            NSUInteger index = [_filteredResults indexOfObject:selectedEvent];
             if (index != NSNotFound) {
-                [_mapView deselectAnnotation:selectedEvent animated:YES];
+                [_mapView deselectAnnotation:selectedEvent animated:NO];
                 if (index == 0) {
-                    [_mapView selectAnnotation:[_results objectAtIndex:[_results count]-1] animated:YES];
+                    [_mapView selectAnnotation:[_filteredResults objectAtIndex:index+1] animated:NO];
                 }
-                else if (index == [_results count] - 1)
+                else if (index == [_filteredResults count] - 1)
                 {
-                    [_mapView selectAnnotation:[_results objectAtIndex:0] animated:YES];
+                    [_mapView selectAnnotation:[_filteredResults objectAtIndex:0] animated:NO];
                 }
                 else
                 {
-                    [_mapView selectAnnotation:[_results objectAtIndex:index-1] animated:YES];
+                    [_mapView selectAnnotation:[_filteredResults objectAtIndex:index-1] animated:NO];
                 }
             }
         }
@@ -156,19 +215,19 @@
     if ([[_mapView selectedAnnotations] count]) {
         Event *selectedEvent = [[_mapView selectedAnnotations] lastObject];
         if (selectedEvent) {
-            NSUInteger index = [_results indexOfObject:selectedEvent];
+            NSUInteger index = [_filteredResults indexOfObject:selectedEvent];
             if (index != NSNotFound) {
-                [_mapView deselectAnnotation:selectedEvent animated:YES];
+                [_mapView deselectAnnotation:selectedEvent animated:NO];
                 if (index == 0) {
-                    [_mapView selectAnnotation:[_results objectAtIndex:[_results count]-1] animated:YES];
+                    [_mapView selectAnnotation:[_filteredResults objectAtIndex:index+1] animated:NO];
                 }
-                else if (index == [_results count] - 1)
+                else if (index == [_filteredResults count] - 1)
                 {
-                    [_mapView selectAnnotation:[_results objectAtIndex:0] animated:YES];
+                    [_mapView selectAnnotation:[_filteredResults objectAtIndex:0] animated:NO];
                 }
                 else
                 {
-                    [_mapView selectAnnotation:[_results objectAtIndex:index+1] animated:YES];
+                    [_mapView selectAnnotation:[_filteredResults objectAtIndex:index+1] animated:NO];
                 }
             }
         }
@@ -177,26 +236,7 @@
 
 - (void)doChangeSlider:(UISlider *)slider
 {
-    NSDate *earliestDate = [NSDate dateWithTimeIntervalSince1970:384856200];
-    NSDate *latestDate = [NSDate dateWithTimeIntervalSince1970:384954600];
-    
-    
-    float increment = 0.167;
-    int day = 0;
-    if (slider.value < increment)
-        day = 0;
-    else if (slider.value < increment * 2)
-        day = 1;
-    else if (slider.value < increment * 3)
-        day = 2;
-    else if (slider.value < increment * 4)
-        day = 3;
-    else if (slider.value < increment * 5)
-        day = 4;
-    else if (slider.value < increment * 6)
-        day = 5;
-    
-    [self setCurrentDay:day];
+    [self filterBasedOnCurrentTime];
 }
 
 #pragma mark MKMapViewDelegate
@@ -207,7 +247,10 @@
     NSFetchRequest *fetch = [self fetchRequest];
     NSArray *results = [[SPCoreDataWrapper readContext] executeFetchRequest:fetch error:&error];
     if (error) NSLog(@"Error: %@", error);
-    [self reloadMapDataWithResults:results];
+    [_results removeAllObjects];
+    [_results addObjectsFromArray:results];
+    
+    [self filterBasedOnCurrentTime];
 }
 
 - (void)mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error
@@ -216,7 +259,7 @@
 }
 - (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {    
-    MKCoordinateRegion region = MKCoordinateRegionMake(userLocation.coordinate, MKCoordinateSpanMake(0.01, 0.01));
+    MKCoordinateRegion region = MKCoordinateRegionMake(userLocation.coordinate, MKCoordinateSpanMake(0.015, 0.015));
     [mapView setCenterCoordinate:userLocation.coordinate];    
     [mapView setRegion:[mapView regionThatFits:region]];
     
@@ -240,9 +283,10 @@
         MKPinAnnotationView *pin = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:eventAnnotationIdentifier];
         if (!pin) {
             pin = [[MKPinAnnotationView alloc] initWithAnnotation:nil reuseIdentifier:eventAnnotationIdentifier];
+            [pin setPinColor:MKPinAnnotationColorGreen];
             [pin setCanShowCallout:YES];
-            
         }
+
         [pin setAnnotation:annotation];
         return pin;
     }
@@ -256,8 +300,9 @@
 {
     NSLog(@"Added Views: %d", [views count]);
     
-    if ([_results count])
-        [mapView selectAnnotation:_results[0] animated:YES];
+//    if (![views containsObject:_mapView.userLocation]) {
+//        [self refreshMapRegionIncludingCurrentMapRegion:YES animated:NO];
+//    }
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
@@ -272,8 +317,10 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
-    Event* event = (Event*)view.annotation;
-    [self playEvent:event];
+    if (view.annotation != mapView.userLocation) {
+        Event* event = (Event*)view.annotation;
+        [self playEvent:event];
+    }
 }
 
 
@@ -366,6 +413,8 @@ fromOldState:(MKAnnotationViewDragState)oldState
                                       [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                                       weakSelf.spCurrentArtist = browse;
                                       [weakSelf setTitle:artist.name];
+//                                      [weakSelf setTitle:artist.name];
+//                                      [weakSelf setTitle:[NSString timeStringForDate:_currentTime]];
                                   }
                               }];
                           } else {

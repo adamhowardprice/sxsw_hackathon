@@ -10,6 +10,7 @@
 
 @interface NSString (SXSW)
 
++ (NSString *)timeStringForDate:(NSDate *)date;
 + (NSUInteger)concertDayForDateString:(NSString *)dateString;
 + (NSString *)dateStringForConcertDay:(NSUInteger)index;
 

@@ -10,6 +10,21 @@
 
 @implementation NSString (SXSW)
 
++ (NSString *)timeStringForDate:(NSDate *)date
+{
+    static NSDateFormatter *dateFormatter = nil;
+    if (!dateFormatter) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+//        [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+//        [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+        [dateFormatter setDateFormat:@"MM-dd' / 'HH':'mm"];
+        [dateFormatter setLocale:[NSLocale currentLocale]];
+        [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+    }
+    NSString *timeString = [dateFormatter stringFromDate:date];
+    return timeString;
+}
+
 + (NSUInteger)concertDayForDateString:(NSString *)dateString
 {
     NSUInteger date = -1;

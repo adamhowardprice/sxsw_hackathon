@@ -166,7 +166,7 @@ static NSDictionary *EventMapppingDictionary = nil;
 
 - (NSString *)title
 {
-    return self.artist.name;
+    return self.venue.name;
 }
 
 - (NSString *)subtitle
@@ -189,7 +189,14 @@ static NSDictionary *EventMapppingDictionary = nil;
 
 - (BOOL)isHappeningAtDate:(NSDate *)date
 {
-    return [self.endDate timeIntervalSinceDate:date] > 0 && [self.startDate timeIntervalSinceDate:date] < 0;
+    BOOL isAfterStartDate = [self.startDate timeIntervalSinceDate:date] < 0;
+    BOOL isBeforeEndDate = [self.endDate timeIntervalSinceDate:date] > 0;
+    
+    BOOL isHappening = isAfterStartDate && isBeforeEndDate;
+    
+//    NSLog(@"Is Happening: %d", isHappening);
+    
+    return isHappening;
 }
 
 @end
